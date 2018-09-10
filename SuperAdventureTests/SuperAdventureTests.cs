@@ -14,7 +14,9 @@ namespace SuperAdventure.Tests
         [TestMethod()]
         public void SuperAdventureTest()
         {
-            Assert.Fail();
+            SuperAdventure superAdventureactual = new SuperAdventure();
+            
+            
         }
     }
 }
