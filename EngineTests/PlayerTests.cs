@@ -189,22 +189,18 @@ namespace Engine.Tests
             int gold = 99;
             int experiencePoints = 500;
             int level = 60;
-            int itemQuantity = 4;
-            Location location = World.LocationById(3);
+            int itemId = 4;
 
             Quest zadanie = World.QuestById(2);
-            var nazwaZadania = zadanie.Name;
             PlayerQuest zadanieGracza = new PlayerQuest(zadanie);
-            var nazwaZadaniaGracza = zadanieGracza.Details.Name;
             Player createPlayer = new Player(currentHitPoints,
                 maximumHitPoints,
                 gold,
                 experiencePoints,
                 level);
-            createPlayer.AddItemToInventory(World.ItemById(itemQuantity));
-            createPlayer.AddItemToInventory(World.ItemById(itemQuantity));
-            createPlayer.AddItemToInventory(World.ItemById(itemQuantity));
-            //var nazwa = World.ItemById(10).Name;
+            createPlayer.AddItemToInventory(World.ItemById(itemId));
+            createPlayer.AddItemToInventory(World.ItemById(itemId));
+            createPlayer.AddItemToInventory(World.ItemById(itemId));
             createPlayer.Quests.Add(zadanieGracza);
             Assert.IsTrue(createPlayer.HasAllQuestCompletionItems(zadanie));
         }
@@ -217,21 +213,17 @@ namespace Engine.Tests
             int gold = 99;
             int experiencePoints = 500;
             int level = 60;
-            int itemQuantity = 4;
-            Location location = World.LocationById(3);
+            int itemId = 4;
 
             Quest zadanie = World.QuestById(2);
-            var nazwaZadania = zadanie.Name;
             PlayerQuest zadanieGracza = new PlayerQuest(zadanie);
-            var nazwaZadaniaGracza = zadanieGracza.Details.Name;
             Player createPlayer = new Player(currentHitPoints,
                 maximumHitPoints,
                 gold,
                 experiencePoints,
                 level);
-            createPlayer.AddItemToInventory(World.ItemById(itemQuantity));
-            createPlayer.AddItemToInventory(World.ItemById(itemQuantity));
-            //var nazwa = World.ItemById(10).Name;
+            createPlayer.AddItemToInventory(World.ItemById(itemId));
+            createPlayer.AddItemToInventory(World.ItemById(itemId));
             createPlayer.Quests.Add(zadanieGracza);
             Assert.IsFalse(createPlayer.HasAllQuestCompletionItems(zadanie));
         }
@@ -245,12 +237,9 @@ namespace Engine.Tests
             int experiencePoints = 500;
             int level = 60;
             int itemQuantity = 4;
-            Location location = World.LocationById(3);
 
             Quest zadanie = World.QuestById(2);
-            var nazwaZadania = zadanie.Name;
             PlayerQuest zadanieGracza = new PlayerQuest(zadanie);
-            var nazwaZadaniaGracza = zadanieGracza.Details.Name;
             Player createPlayer = new Player(currentHitPoints,
                 maximumHitPoints,
                 gold,
@@ -262,9 +251,55 @@ namespace Engine.Tests
         }
 
         [TestMethod()]
-        public void RemoveQuestCompletionItemsTest()
+        public void RemoveQuestCompletionItemsTwoDifferentItemsInListTest()
         {
-            Assert.Fail();
+            int currentHitPoints = 100;
+            int maximumHitPoints = 100;
+            int gold = 99;
+            int experiencePoints = 500;
+            int level = 60;
+            int itemId = 2;
+            int oczekiwanaLiczbaElementow = 2;
+
+            Quest zadanie = World.QuestById(1);
+            PlayerQuest zadanieGracza = new PlayerQuest(zadanie);
+            Player createPlayer = new Player(currentHitPoints,
+                maximumHitPoints,
+                gold,
+                experiencePoints,
+                level);
+            createPlayer.Quests.Add(zadanieGracza);
+            createPlayer.AddItemToInventory(World.ItemById(itemId));
+            createPlayer.AddItemToInventory(World.ItemById(itemId+2));
+            createPlayer.RemoveQuestCompletionItems(zadanie);
+            int faktycznaLiczbaElementowInventoryCount = createPlayer.Inventory.Count;
+            Assert.AreEqual(oczekiwanaLiczbaElementow,faktycznaLiczbaElementowInventoryCount);
+        }
+
+        [TestMethod()]
+        public void RemoveQuestCompletionItemsWrongItemIdInListTest()
+        {
+            int currentHitPoints = 100;
+            int maximumHitPoints = 100;
+            int gold = 99;
+            int experiencePoints = 500;
+            int level = 60;
+            int itemId = 1;
+            int oczekiwanaLiczbaElementow = 1;
+
+            Quest zadanie = World.QuestById(1);
+            PlayerQuest zadanieGracza = new PlayerQuest(zadanie);
+            Player createPlayer = new Player(currentHitPoints,
+                maximumHitPoints,
+                gold,
+                experiencePoints,
+                level);
+            createPlayer.Quests.Add(zadanieGracza);
+            createPlayer.AddItemToInventory(World.ItemById(itemId));
+            //createPlayer.AddItemToInventory(World.ItemById(itemId + 2));
+            createPlayer.RemoveQuestCompletionItems(zadanie);
+            int faktycznaLiczbaElementowInventoryCount = createPlayer.Inventory.Count;
+            Assert.AreEqual(oczekiwanaLiczbaElementow, faktycznaLiczbaElementowInventoryCount);
         }
 
         [TestMethod()]
