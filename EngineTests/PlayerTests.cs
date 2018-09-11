@@ -296,7 +296,6 @@ namespace Engine.Tests
                 level);
             createPlayer.Quests.Add(zadanieGracza);
             createPlayer.AddItemToInventory(World.ItemById(itemId));
-            //createPlayer.AddItemToInventory(World.ItemById(itemId + 2));
             createPlayer.RemoveQuestCompletionItems(zadanie);
             int faktycznaLiczbaElementowInventoryCount = createPlayer.Inventory.Count;
             Assert.AreEqual(oczekiwanaLiczbaElementow, faktycznaLiczbaElementowInventoryCount);
@@ -305,13 +304,46 @@ namespace Engine.Tests
         [TestMethod()]
         public void AddItemToInventoryTest()
         {
-            Assert.Fail();
+            int currentHitPoints = 100;
+            int maximumHitPoints = 100;
+            int gold = 99;
+            int experiencePoints = 500;
+            int level = 60;
+            int itemId = 1;
+            int oczekiwanaLiczbaElementow = 3;
+            Player createPlayer = new Player(currentHitPoints,
+                maximumHitPoints,
+                gold,
+                experiencePoints,
+                level);
+            createPlayer.AddItemToInventory(World.ItemById(itemId));
+            createPlayer.AddItemToInventory(World.ItemById(itemId+1));
+            createPlayer.AddItemToInventory(World.ItemById(itemId+2));
+            int faktycznaLiczbaElementow = createPlayer.Inventory.Count;
+            Assert.AreEqual(oczekiwanaLiczbaElementow,faktycznaLiczbaElementow);
         }
 
         [TestMethod()]
-        public void MarkQuestCompletedTest()
+        public void MarkQuestCompletedFalseQuestAndPlayerQuestDoNotMatchTest()
         {
-            Assert.Fail();
+            int currentHitPoints = 100;
+            int maximumHitPoints = 100;
+            int gold = 99;
+            int experiencePoints = 500;
+            int level = 60;
+            int itemId = 1;
+
+            Quest zadanie = World.QuestById(1);
+            Quest zadanieFalse = World.QuestById(2);
+            PlayerQuest zadanieGracza = new PlayerQuest(zadanieFalse);
+            Player createPlayer = new Player(currentHitPoints,
+                maximumHitPoints,
+                gold,
+                experiencePoints,
+                level);
+            createPlayer.Quests.Add(zadanieGracza);
+            createPlayer.MarkQuestCompleted(zadanie);
+            Assert.IsFalse(zadanieGracza.IsCompleted);
         }
     }
 }
