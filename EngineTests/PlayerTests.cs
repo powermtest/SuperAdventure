@@ -93,9 +93,46 @@ namespace Engine.Tests
         }
 
         [TestMethod()]
-        public void HasThisQuestTest()
+        public void HasThisQuestQuestIdMatchesTest()
         {
-            Assert.Fail();
+            int currentHitPoints = 100;
+            int maximumHitPoints = 100;
+            int gold = 99;
+            int experiencePoints = 500;
+            int level = 60;
+            Quest zadanie = World.QuestById(1);
+            var nazwaZadania = zadanie.Name;
+            PlayerQuest zadanieGracza = new PlayerQuest(zadanie);
+            var nazwaZadaniaGracza = zadanieGracza.Details.Name;
+            Player createPlayer = new Player(currentHitPoints,
+                maximumHitPoints,
+                gold,
+                experiencePoints,
+                level);
+            createPlayer.Quests.Add(zadanieGracza);
+            Assert.IsTrue(createPlayer.HasThisQuest(zadanie));
+        }
+
+        [TestMethod()]
+        public void HasThisQuestQuestIdDoesNotMatchTest()
+        {
+            int currentHitPoints = 100;
+            int maximumHitPoints = 100;
+            int gold = 99;
+            int experiencePoints = 500;
+            int level = 60;
+            Quest zadanie = World.QuestById(1);
+            Quest zadanieFalse = World.QuestById(2);
+            var nazwaZadania = zadanie.Name;
+            PlayerQuest zadanieGracza = new PlayerQuest(zadanieFalse);
+            var nazwaZadaniaGracza = zadanieGracza.Details.Name;
+            Player createPlayer = new Player(currentHitPoints,
+                maximumHitPoints,
+                gold,
+                experiencePoints,
+                level);
+            createPlayer.Quests.Add(zadanieGracza);
+            Assert.IsFalse(createPlayer.HasThisQuest(zadanie));
         }
 
         [TestMethod()]
